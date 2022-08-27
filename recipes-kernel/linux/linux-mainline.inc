@@ -18,12 +18,11 @@ RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
 
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 
+FILES_${KERNEL_PACKAGE_NAME}-base:append = " ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
+
 S = "${WORKDIR}/linux-${PV}"
 
-SRC_URI = "https://www.kernel.org/pub/linux/kernel/v5.x/linux-${PV}.tar.xz"
-#SRC_URI = "git://github.com/katyo/linux.git;protocol=https"
-
-SRC_URI:append:sunxi = " https://github.com/katyo/linux/compare/v${PV}...v${PV}-sunxi64.patch;name=sunxi-patches"
+SRC_URI = "git://github.com/katyo/linux.git;protocol=https;nobranch=1"
 
 SRC_URI:append = " file://defconfig"
 
@@ -256,5 +255,3 @@ do_configure:prepend() {
     kernel_conf_var MODULE_COMPRESS_XZ y
     
 }
-
-FILES_${KERNEL_PACKAGE_NAME}-base:append = " ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
